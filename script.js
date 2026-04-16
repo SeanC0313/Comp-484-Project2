@@ -2,6 +2,9 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
     
     // Called function to update the name, happiness, and weight of our pet in our HTML
     checkAndUpdatePetInfoInHtml();
+
+    // .prepend() inserts new content at the beginning of the selected element.
+    $('.dashboard').prepend('<div class="game-title">Pet Status</div>');
   
     // When each button is clicked, it will "call" function for that button (functions are below)
     $('.treat-button').click(clickedTreatButton);
@@ -15,7 +18,8 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
   })
   
     // Add a variable "pet_info" equal to a object with the name (string), weight (number), and happiness (number) of your pet
-    var pet_info = {name:"My Pet Name", weight: 30, happiness: 50, energy: 20};
+    var pet_info = {name:"Theo", weight: 30, happiness: 50, energy: 20};
+    var min_weight = 10;
   
     function clickedTreatButton() {
       pet_info.happiness += 1;
@@ -27,6 +31,11 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
     }
     
     function clickedPlayButton() {
+      if (pet_info.energy < 5) {
+        $('.pet-message').html("I'm too tired to play right now!");
+        checkAndUpdatePetInfoInHtml();
+        return;
+      }
       pet_info.happiness += 2;
       pet_info.weight -= 1;
       pet_info.energy -= 5;
@@ -35,6 +44,11 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
     }
     
     function clickedExerciseButton() {
+      if (pet_info.energy < 10) {
+        $('.pet-message').html("I'm too tired to exercise right now!");
+        checkAndUpdatePetInfoInHtml();
+        return;
+      }
       pet_info.happiness -= 2;
       pet_info.weight -= 2;
       pet_info.energy -= 10;
@@ -55,8 +69,8 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
     }
     
     function checkWeightAndHappinessBeforeUpdating() {
-      if (pet_info.weight < 0) {
-        pet_info.weight = 0;
+      if (pet_info.weight < min_weight) {
+        pet_info.weight = min_weight;
       }
 
       if (pet_info.happiness < 0) {
@@ -65,6 +79,10 @@ $(function() { // Makes sure that your function is called once all the DOM eleme
 
       if (pet_info.energy < 0) {
         pet_info.energy = 0;
+      }
+
+      if (pet_info.energy > 40) {
+        pet_info.energy = 40;
       }
     }
     
